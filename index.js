@@ -73,13 +73,7 @@ serverAuth.post('/register', (req, res) => {
   console.log("register endpoint called; request body:");
   console.log(req.body);
   const {username, password} = req.body;
-  /*
-  if(isAuthenticated({username, password}) === true) {
-    res.statusCode = 401;
-    res.setHeader('Content-Type', 'application/json');
-    res.json({success: false, status: "This user already exist", err: 401});
-  }*/
-  //const url = "http://localhost:3000/users";
+
 	const url = "https://aichemist-server.herokuapp.com/users";
 	fetch(url)
 	.then((resp) => resp.json()) 

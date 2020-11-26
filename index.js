@@ -35,7 +35,7 @@ res.status(200).jsonp("working");
 });
 
 // Check if the user exists in database\
-\
+
 function isAuthenticated({username, password}){
 	//const url = "http://localhost:3000/users";
 	var answer = 2

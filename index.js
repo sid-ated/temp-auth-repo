@@ -22,6 +22,39 @@ function verifyToken(token){
   return  jwt.verify(token, SECRET_KEY, (err, decode) => decode !== undefined ?  decode : err)
 }
 
+//
+const shortid = require('shortid')
+const Razorpay = require('razorpay')
+const razorpay = new Razorpay({
+	key_id: 'rzp_test_35znAIY1z9fBwX',
+	key_secret: 'CLQ2RJQgaCwnSDJUETCpk8uQ'
+})
+
+serverAuth.post('/razorpay', async (req, res) => {
+	const payment_capture = 1
+	const amount = 500
+	const currency = 'INR'
+
+	const options = {
+		amount: amount * 100,
+		currency,
+		receipt: shortid.generate(),
+		payment_capture
+	}
+
+	try {
+		const response = await razorpay.orders.create(options)
+		console.log(response)
+		res.json({
+			id: response.id,
+			currency: response.currency,
+			amount: response.amount
+		})
+	} catch (error) {
+		console.log(error)
+	}
+})
+//
 serverAuth.post('/temp', (req, res) => {
 //const url = "http://localhost:3000/users";
 const url = "https://aichemist-server.herokuapp.com/users";
@@ -139,7 +172,7 @@ serverAuth.use(/^(?!\/auth).*$/,  (req, res, next) => {
   }
 })
 
-var port = Number(process.env.PORT || 3000);
+var port = Number(process.env.PORT || 1337);
 serverAuth.listen(port, function () {
     console.log('JSON Server is running')
 });

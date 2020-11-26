@@ -34,16 +34,17 @@ fetch(url)
 res.status(200).jsonp("working");
 });
 
-// Check if the user exists in database
+// Check if the user exists in database\
+\
 function isAuthenticated({username, password}){
 	//const url = "http://localhost:3000/users";
-	var answer = true
+	var answer = 2
 	const url = "https://aichemist-server.herokuapp.com/users";
 	fetch(fetch)
 	.then((resp) => resp.json()) 
 	.then(function(data) {
 	  //return data.findIndex(user => user.username === username && user.password === password) !== -1
-	  //answer = true
+	  answer = 4
 	})
 	.catch(err => console.log(err))
 	return answer
@@ -54,11 +55,11 @@ serverAuth.post('/register', (req, res) => {
   console.log("register endpoint called; request body:");
   console.log(req.body);
   const {username, password} = req.body;
-  
-  if(isAuthenticated({username, password}) === true) {
+  var ans = isAuthenticated({username, password})
+  if(isAuthenticated({username, password}) === 2 || isAuthenticated({username, password}) === 4) {
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
-    res.json({success: false, status: 'This user already exist', err: 401});
+    res.json({success: false, status: `This user already exist ${ans}`, err: 401});
   }
 	  
 	const url = "https://aichemist-server.herokuapp.com/users";

@@ -114,25 +114,31 @@ serverAuth.post('/login', (req, res) => {
   const {username, password} = req.body;
   //
   	const url = "https://aichemist-server.herokuapp.com/users";
-	let response = fetch(url);
-	let data = response.json();
-	var idx = data.findIndex(user => user.username === username && user.password === password);
-	if(idx===-1){
-	     res.statusCode = 401;
-            res.setHeader('Content-Type', 'application/json');
-            res.json({success: false, status: 'Login Unsuccessful', err: 401});
-	}
+	fetch(url)
+	.then((resp) => resp.json()) 
+	.then(function(data, {username, password}) {
+	  var idx = data.findIndex(user => user.username === username && user.password === password);
+	  if (idx===-1) {
+		    res.statusCode = 401;
+		    res.setHeader('Content-Type', 'application/json');
+		    res.json({success: false, status: 'Login Unsuccessful', err: 401});
+  	    }
+  	    const access_token = createToken({username, password})
+	  res.statusCode = 200;
+	  res.setHeader('Content-Type', 'application/json');
+	  res.json({success: true, status: 'Login Successful', token: access_token });
+	})
   //
   /*
   if (isAuthenticated({username, password}) === false) {
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
     res.json({success: false, status: 'Login Unsuccessful', err: 401});
-  }*/
+  }
   const access_token = createToken({username, password})
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  res.json({success: true, status: 'Login Successful', token: access_token });
+  res.json({success: true, status: 'Login Successful', token: access_token });*/
 
 })
 

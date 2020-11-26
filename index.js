@@ -39,7 +39,7 @@ res.status(200).jsonp("working");
 async function isAuthenticated({username, password}){
 	//const url = "http://localhost:3000/users";
 	const url = "https://aichemist-server.herokuapp.com/users";
-	let response = await fetch(fetch);
+	let response = await fetch(url);
 	let data = await response.json();
 	return 5;
 	//return data.findIndex(user => user.username === username && user.password === password) !== -1
@@ -110,12 +110,25 @@ serverAuth.post('/register', (req, res) => {
 serverAuth.post('/login', (req, res) => {
   console.log("login endpoint called; request body:");
   console.log(req.body);
+  
   const {username, password} = req.body;
+  //
+  	const url = "https://aichemist-server.herokuapp.com/users";
+	let response = fetch(url);
+	let data = response.json();
+	var idx = data.findIndex(user => user.username === username && user.password === password);
+	if(idx===-1){
+	     res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({success: false, status: 'Login Unsuccessful', err: 401});
+	}
+  //
+  /*
   if (isAuthenticated({username, password}) === false) {
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
     res.json({success: false, status: 'Login Unsuccessful', err: 401});
-  }
+  }*/
   const access_token = createToken({username, password})
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');

@@ -37,14 +37,16 @@ res.status(200).jsonp("working");
 // Check if the user exists in database
 function isAuthenticated({username, password}){
 	//const url = "http://localhost:3000/users";
+	var answer = false
 	const url = "https://aichemist-server.herokuapp.com/users";
 	fetch(fetch)
 	.then((resp) => resp.json()) 
 	.then(function(data) {
 	  //return data.findIndex(user => user.username === username && user.password === password) !== -1
-	  return true
+	  answer = true
 	})
 	.catch(err => console.log(err))
+	return answer
 }
 
 // Register New User

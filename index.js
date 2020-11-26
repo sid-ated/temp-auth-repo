@@ -42,9 +42,9 @@ function isAuthenticated({username, password}){
 	const url = "https://aichemist-server.herokuapp.com/users";
 	fetch(fetch)
 	.then((resp) => resp.json()) 
-	.then(function(data) {
+	answer = .then(function(data) {
 	  //return data.findIndex(user => user.username === username && user.password === password) !== -1
-	  answer = 4
+	  return 5
 	})
 	.catch(err => console.log(err))
 	return answer

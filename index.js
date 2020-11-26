@@ -36,11 +36,14 @@ res.status(200).jsonp("working");
 
 // Check if the user exists in database\
 
-function isAuthenticated({username, password}){
+async function isAuthenticated({username, password}){
 	//const url = "http://localhost:3000/users";
-	var answer = 2
 	const url = "https://aichemist-server.herokuapp.com/users";
-	fetch(fetch)
+	let response = await fetch(fetch);
+	let data = await response.json();
+	return 5;
+	//return data.findIndex(user => user.username === username && user.password === password) !== -1
+	/*
 	.then((resp) => resp.json()) 
 	.then(function(data, answer) {
 	  //return data.findIndex(user => user.username === username && user.password === password) !== -1
@@ -48,6 +51,7 @@ function isAuthenticated({username, password}){
 	})
 	.catch(err => console.log(err))
 	return answer
+	*/
 }
 
 // Register New User
@@ -56,7 +60,7 @@ serverAuth.post('/register', (req, res) => {
   console.log(req.body);
   const {username, password} = req.body;
   var ans = isAuthenticated({username, password})
-  if(isAuthenticated({username, password}) === 2 || isAuthenticated({username, password}) === 4) {
+  if(isAuthenticated({username, password}) === 5 || isAuthenticated({username, password}) === 4) {
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
     res.json({success: false, status: `This user already exist ${ans}`, err: 401});

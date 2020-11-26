@@ -28,10 +28,10 @@ const url = "https://aichemist-server.herokuapp.com/users";
 fetch(url)
 .then((resp) => resp.json()) 
 .then(function(data) {
-  console.log(data)
+  res.status(200).jsonp("working")
 })
 .catch(err => console.log(err))
-res.status(200).jsonp("working");
+
 });
 
 // Check if the user exists in database\
@@ -39,19 +39,12 @@ res.status(200).jsonp("working");
 async function isAuthenticated({username, password}){
 	//const url = "http://localhost:3000/users";
 	const url = "https://aichemist-server.herokuapp.com/users";
-	let response = await fetch(url);
-	let data = await response.json();
-	return 5;
-	//return data.findIndex(user => user.username === username && user.password === password) !== -1
-	/*
+	fetch(url)
 	.then((resp) => resp.json()) 
 	.then(function(data, answer) {
 	  //return data.findIndex(user => user.username === username && user.password === password) !== -1
-	  answer = 6
 	})
 	.catch(err => console.log(err))
-	return answer
-	*/
 }
 
 // Register New User
@@ -59,11 +52,10 @@ serverAuth.post('/register', (req, res) => {
   console.log("register endpoint called; request body:");
   console.log(req.body);
   const {username, password} = req.body;
-  var ans = isAuthenticated({username, password})
-  if(isAuthenticated({username, password}) === 5 || isAuthenticated({username, password}) === 4) {
+  if(isAuthenticated({username, password}) === true) {
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
-    res.json({success: false, status: `This user already exist ${ans}`, err: 401});
+    res.json({success: false, status: "This user already exist", err: 401});
   }
 	  
 	const url = "https://aichemist-server.herokuapp.com/users";
@@ -112,24 +104,7 @@ serverAuth.post('/login', (req, res) => {
   console.log(req.body);
   
   const {username, password} = req.body;
-  //
-  	const url = "https://aichemist-server.herokuapp.com/users";
-	fetch(url)
-	.then((resp) => resp.json()) 
-	.then(function(data, {username, password}) {
-	  var idx = data.findIndex(user => user.username === username && user.password === password);
-	  if (idx===-1) {
-		    res.statusCode = 401;
-		    res.setHeader('Content-Type', 'application/json');
-		    res.json({success: false, status: 'Login Unsuccessful', err: 401});
-  	    }
-  	    const access_token = createToken({username, password})
-	  res.statusCode = 200;
-	  res.setHeader('Content-Type', 'application/json');
-	  res.json({success: true, status: 'Login Successful', token: access_token });
-	})
-  //
-  /*
+ 
   if (isAuthenticated({username, password}) === false) {
     res.statusCode = 401;
     res.setHeader('Content-Type', 'application/json');
@@ -138,7 +113,7 @@ serverAuth.post('/login', (req, res) => {
   const access_token = createToken({username, password})
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  res.json({success: true, status: 'Login Successful', token: access_token });*/
+  res.json({success: true, status: 'Login Successful', token: access_token });
 
 })
 
